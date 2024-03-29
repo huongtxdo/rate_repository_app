@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
   appBarTab: {
     padding: 10,
   },
-  // ...
 });
 
 const AppBarTab = (props) => {

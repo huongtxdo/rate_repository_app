@@ -5,7 +5,7 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   repositoryItem: {
     display: 'flex',
-    backgroundColor: theme.backgroundColors.repositoryItem,
+    backgroundColor: theme.backgroundColors.white,
   },
   imageAndInfo: { flexDirection: 'row', marginLeft: 5 },
   image: {
