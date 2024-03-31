@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   info: {
     flexGrow: 1,
     margin: 5,
+    flexShrink: 1, // wrap text
   },
   fullname: {
     fontWeight: theme.fontWeights.bold,
@@ -27,6 +28,7 @@ const styles = StyleSheet.create({
   description: {
     marginVertical: 3,
     color: theme.colors.textSecondary,
+    flexShrink: 1,
   },
   languageTag: {
     color: theme.colors.white,
