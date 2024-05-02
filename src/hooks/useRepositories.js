@@ -1,23 +1,18 @@
-import { Text, View } from 'react-native';
 import { useQuery } from '@apollo/client';
 
 import { GET_REPOSITORIES } from '../graphql/queries';
 
 const useRepositories = () => {
-  const { data, loading } = useQuery(GET_REPOSITORIES, {
+  const { data, ...result } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
   });
-  if (loading) {
-    return (
-      <View>
-        <Text>loading ...</Text>
-      </View>
-    );
-  }
-  return data.repositories;
+
+  // if (loading) return [];
+
+  return { repositories: data ? data.repositories : undefined, ...result };
 };
 
-export default useRepositories;
+// import { useState, useEffect } from 'react';
 
 // const useRepositories = () => {
 //   const [repositories, setRepositories] = useState();
@@ -35,4 +30,6 @@ export default useRepositories;
 
 //   return { repositories, loading, refetch: fetchRepositories };
 // };
+
+export default useRepositories;
 

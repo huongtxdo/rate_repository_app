@@ -1,4 +1,5 @@
 import { TextInput } from 'react-native';
+
 import theme from '../theme';
 
 const CustomTextInput = ({ style, error, ...props }) => {

@@ -23,6 +23,10 @@ class AuthStorage {
     // Remove the access token from the storage
     await AsyncStorage.removeItem(`${this.namespace}:token`);
   }
+
+  async getKey(key) {
+    return `${this.namespace}:${key}`;
+  }
 }
 
 export default AuthStorage;
