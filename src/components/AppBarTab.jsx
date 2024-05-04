@@ -8,15 +8,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = (props) => {
-  const { text, path } = props;
-  return (
-    <Pressable style={styles.appBarTab}>
-      <Link to={path}>
+const AppBarTab = ({ text, path, ...props }) => {
+  return path ? (
+    <Link style={styles.appBarTab} to={path}>
+      <Text fontWeight={'bold'} color={'appBar'}>
+        {text}
+      </Text>
+    </Link>
+  ) : (
+    <Pressable style={styles.appBarTab} {...props}>
+      <View>
         <Text fontWeight={'bold'} color={'appBar'}>
           {text}
         </Text>
-      </Link>
+      </View>
     </Pressable>
   );
 };
