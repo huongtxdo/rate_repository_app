@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 import theme from '../theme';
+import handleThousands from '../utils/handleThousands';
 
 const styles = StyleSheet.create({
   repositoryItem: {
@@ -48,13 +49,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const Achievement = ({ value, name }) => {
-  const valueAdjusted =
-    value >= 1000 ? Math.round((value * 10) / 1000) / 10 + 'k' : value;
+const Achievement = ({ value, label }) => {
   return (
     <View style={styles.achievement}>
-      <Text style={styles.fullname}>{valueAdjusted}</Text>
-      <Text style={styles.description}>{name}</Text>
+      <Text style={styles.fullname}>{handleThousands(value)}</Text>
+      <Text style={styles.description}>{label}</Text>
     </View>
   );
 };
@@ -73,7 +72,7 @@ const RepositoryItem = ({ props }) => {
   // console.log('stargazersCount', stargazersCount);
 
   return (
-    <View style={styles.repositoryItem}>
+    <View testID="repositoryItem" style={styles.repositoryItem}>
       <View style={styles.imageAndInfo}>
         <Image
           style={styles.image}
@@ -89,10 +88,10 @@ const RepositoryItem = ({ props }) => {
       </View>
 
       <View style={styles.achievements}>
-        <Achievement value={stargazersCount} name={'Stars'} />
-        <Achievement value={forksCount} name={'Forks'} />
-        <Achievement value={reviewCount} name={'Reviews'} />
-        <Achievement value={ratingAverage} name={'Rating'} />
+        <Achievement value={stargazersCount} label={'Stars'} />
+        <Achievement value={forksCount} label={'Forks'} />
+        <Achievement value={reviewCount} label={'Reviews'} />
+        <Achievement value={ratingAverage} label={'Rating'} />
       </View>
     </View>
   );
