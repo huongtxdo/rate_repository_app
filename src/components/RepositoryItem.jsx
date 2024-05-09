@@ -1,4 +1,5 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import * as Linking from 'expo-linking';
 
 import theme from '../theme';
 import handleThousands from '../utils/handleThousands';
@@ -33,9 +34,8 @@ const styles = StyleSheet.create({
   },
   languageTag: {
     color: theme.colors.white,
-    borderRadius: 5,
     backgroundColor: theme.backgroundColors.languageTag,
-    alignSelf: 'flex-start',
+    borderRadius: 5,
     padding: 3,
     marginVertical: 3,
   },
@@ -47,6 +47,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
   },
+  openGithubButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: theme.backgroundColors.languageTag,
+    borderRadius: 5,
+  },
 });
 
 const Achievement = ({ value, label }) => {
@@ -55,6 +61,18 @@ const Achievement = ({ value, label }) => {
       <Text style={styles.fullname}>{handleThousands(value)}</Text>
       <Text style={styles.description}>{label}</Text>
     </View>
+  );
+};
+
+const OpenGithubButton = ({ onPress }) => {
+  return (
+    <Pressable style={styles.openGithubButton} onPress={onPress}>
+      <Text
+        style={{ ...styles.languageTag, fontWeight: theme.fontWeights.bold }}
+      >
+        Open in GitHub
+      </Text>
+    </Pressable>
   );
 };
 
@@ -68,8 +86,8 @@ const RepositoryItem = ({ props }) => {
     ratingAverage,
     reviewCount,
     ownerAvatarUrl,
+    url = 'www.google.com',
   } = props;
-  // console.log('stargazersCount', stargazersCount);
 
   return (
     <View testID="repositoryItem" style={styles.repositoryItem}>
@@ -80,10 +98,13 @@ const RepositoryItem = ({ props }) => {
             uri: ownerAvatarUrl,
           }}
         />
+
         <View style={styles.info}>
           <Text style={styles.fullname}>{fullName}</Text>
           <Text style={styles.description}>{description}</Text>
-          <Text style={styles.languageTag}>{language}</Text>
+          <Text style={{ ...styles.languageTag, alignSelf: 'flex-start' }}>
+            {language}
+          </Text>
         </View>
       </View>
 
@@ -93,6 +114,11 @@ const RepositoryItem = ({ props }) => {
         <Achievement value={reviewCount} label={'Reviews'} />
         <Achievement value={ratingAverage} label={'Rating'} />
       </View>
+      <OpenGithubButton
+        onPress={() => {
+          Linking.openURL(url);
+        }}
+      />
     </View>
   );
 };

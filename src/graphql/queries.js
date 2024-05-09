@@ -24,3 +24,12 @@ export const GET_CURRENT_USER = gql`
   ${CURRENT_USER_FRAGMENT}
 `;
 
+export const GET_REPOSITORY = gql`
+  query repository {
+    repository(id: $repositoryId) {
+      id
+      fullName
+      url
+    }
+  }
+`;
