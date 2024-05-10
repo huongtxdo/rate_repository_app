@@ -9,7 +9,8 @@ import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    flexGrow: 1,
+    flexShrink: 1,
     backgroundColor: theme.backgroundColors.main,
   },
 });
@@ -20,8 +21,8 @@ const Main = () => {
       <View style={styles.container}>
         <AppBar />
         <Routes>
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/" element={<RepositoryList />} />
+          <Route exact path="/signin" element={<SignIn />} />
+          <Route exact path="/" element={<RepositoryList />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </View>

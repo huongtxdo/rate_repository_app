@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   languageTag: {
     color: theme.colors.white,
-    backgroundColor: theme.backgroundColors.languageTag,
+    backgroundColor: theme.backgroundColors.blue,
     borderRadius: 5,
     padding: 3,
     marginVertical: 3,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   openGithubButton: {
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: theme.backgroundColors.languageTag,
+    backgroundColor: theme.backgroundColors.blue,
     borderRadius: 5,
   },
 });

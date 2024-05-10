@@ -9,11 +9,13 @@ import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     paddingTop: Constants.statusBarHeight,
     alignItems: 'flex-start',
     backgroundColor: theme.backgroundColors.appBar,
     padding: 20,
+  },
+  scrollView: {
+    flexDirection: 'row',
   },
 });
 
@@ -21,6 +23,7 @@ const AppBar = () => {
   const apolloClient = useApolloClient();
   const authStorage = useAuthStorage();
   const navigate = useNavigate();
+
   const { data } = useQuery(GET_CURRENT_USER);
   const currentUser = data?.me;
 
@@ -32,8 +35,8 @@ const AppBar = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal>
-        <AppBarTab text={'Repositories'} path={'/'} />
+      <ScrollView style={styles.scrollView} horizontal>
+        <AppBarTab text="Repositories" path="/" />
         {currentUser ? (
           <AppBarTab text={'Sign out'} onPress={onSignOut} />
         ) : (

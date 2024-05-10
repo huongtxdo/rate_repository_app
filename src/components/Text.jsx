@@ -12,11 +12,14 @@ const styles = StyleSheet.create({
   colorTextSecondary: {
     color: theme.colors.textSecondary,
   },
-  colorPrimary: {
-    color: theme.colors.primary,
-  },
   colorAppBar: {
     color: theme.colors.appBar,
+  },
+  colorButton: {
+    color: theme.colors.white,
+  },
+  colorError: {
+    color: theme.colors.error,
   },
   fontSizeSubheading: {
     fontSize: theme.fontSizes.subheading,
@@ -24,19 +27,17 @@ const styles = StyleSheet.create({
   fontWeightBold: {
     fontWeight: theme.fontWeights.bold,
   },
-  colorLanguage: {
-    color: theme.colors.languageTag,
-  },
 });
 
 const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
   const textStyle = [
     styles.text,
     color === 'textSecondary' && styles.colorTextSecondary,
-    color === 'primary' && styles.colorPrimary,
+    color === 'appBar' && styles.colorAppBar,
+    color === 'error' && styles.colorError,
+    color === 'button' && styles.colorButton,
     fontSize === 'subheading' && styles.fontSizeSubheading,
     fontWeight === 'bold' && styles.fontWeightBold,
-    color === 'appBar' && styles.colorAppBar,
     style,
   ];
 
