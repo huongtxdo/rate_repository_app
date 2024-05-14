@@ -11,6 +11,7 @@ export const GET_REPOSITORIES_FRAGMENT = gql`
     ratingAverage
     id
     ownerAvatarUrl
+    url
   }
 `;
 
@@ -19,6 +20,15 @@ export const CURRENT_USER_FRAGMENT = gql`
     id
     username
     createdAt
+  }
+`;
+
+export const REVIEW_FRAGMENT = gql`
+  fragment reviewFragment on Review {
+    id
+    createdAt
+    rating
+    text
   }
 `;
 

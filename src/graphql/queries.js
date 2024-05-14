@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client';
 
-import { GET_REPOSITORIES_FRAGMENT, CURRENT_USER_FRAGMENT } from './fragments';
+import {
+  GET_REPOSITORIES_FRAGMENT,
+  CURRENT_USER_FRAGMENT,
+  REVIEW_FRAGMENT,
+} from './fragments';
 
 export const GET_REPOSITORIES = gql`
   query repositories {
@@ -25,11 +29,22 @@ export const GET_CURRENT_USER = gql`
 `;
 
 export const GET_REPOSITORY = gql`
-  query repository {
-    repository(id: $repositoryId) {
-      id
-      fullName
-      url
+  query getRepository($id: ID!) {
+    repository(id: $id) {
+      ...getRepositoriesFragment
+      reviews {
+        edges {
+          node {
+            ...reviewFragment
+            user {
+              username
+            }
+          }
+        }
+      }
     }
   }
+  ${GET_REPOSITORIES_FRAGMENT}
+  ${REVIEW_FRAGMENT}
 `;
+

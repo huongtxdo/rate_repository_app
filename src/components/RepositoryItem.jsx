@@ -1,51 +1,60 @@
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import { View, Image, StyleSheet, Pressable } from 'react-native';
 import * as Linking from 'expo-linking';
 
+import Text from './Text';
 import theme from '../theme';
 import handleThousands from '../utils/handleThousands';
 
 const styles = StyleSheet.create({
-  repositoryItem: {
-    display: 'flex',
+  container: {
+    padding: 10,
     backgroundColor: theme.backgroundColors.white,
   },
-  imageAndInfo: { flexDirection: 'row', marginLeft: 5 },
-  image: {
+  imageAndInfoContainer: {
+    flexDirection: 'row',
+    marginBottom: 6,
+  },
+  imageContainer: {
+    marginVertical: 10,
     flexGrow: 0,
+  },
+  image: {
     width: 50,
     height: 50,
-    margin: 10,
     borderRadius: 5,
   },
-  info: {
+  infoContainer: {
     flexGrow: 1,
-    margin: 5,
+    margin: 10,
     flexShrink: 1, // wrap text
   },
   fullname: {
-    fontWeight: theme.fontWeights.bold,
-    fontSize: theme.fontSizes.subheading,
     marginBottom: 3,
   },
   description: {
     marginVertical: 3,
-    color: theme.colors.textSecondary,
     flexShrink: 1,
+    flexGrow: 1,
+  },
+  languageTagContainer: {
+    marginTop: 3,
+    flexDirection: 'row',
   },
   languageTag: {
     color: theme.colors.white,
     backgroundColor: theme.backgroundColors.blue,
     borderRadius: 5,
     padding: 3,
-    marginVertical: 3,
+    flexGrow: 0,
   },
-  achievements: {
+  achievementContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
   },
   achievement: {
-    flexGrow: 1,
+    flexGrow: 0,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   openGithubButton: {
     flexDirection: 'row',
@@ -58,8 +67,12 @@ const styles = StyleSheet.create({
 const Achievement = ({ value, label }) => {
   return (
     <View style={styles.achievement}>
-      <Text style={styles.fullname}>{handleThousands(value)}</Text>
-      <Text style={styles.description}>{label}</Text>
+      <Text style={styles.fullname} fontSize="subheading" fontWeight="bold">
+        {handleThousands(value)}
+      </Text>
+      <Text style={styles.description} color="textSecondary">
+        {label}
+      </Text>
     </View>
   );
 };
@@ -76,7 +89,7 @@ const OpenGithubButton = ({ onPress }) => {
   );
 };
 
-const RepositoryItem = ({ props }) => {
+const RepositoryItem = ({ repository, openInGithub = false, ...props }) => {
   const {
     fullName,
     description,
@@ -86,39 +99,49 @@ const RepositoryItem = ({ props }) => {
     ratingAverage,
     reviewCount,
     ownerAvatarUrl,
-    url = 'www.google.com',
-  } = props;
+    url,
+  } = repository;
 
   return (
-    <View testID="repositoryItem" style={styles.repositoryItem}>
-      <View style={styles.imageAndInfo}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: ownerAvatarUrl,
-          }}
-        />
+    <View testID="container" style={styles.container}>
+      <View style={styles.imageAndInfoContainer}>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: ownerAvatarUrl,
+            }}
+          />
+        </View>
 
-        <View style={styles.info}>
-          <Text style={styles.fullname}>{fullName}</Text>
-          <Text style={styles.description}>{description}</Text>
-          <Text style={{ ...styles.languageTag, alignSelf: 'flex-start' }}>
-            {language}
+        <View style={styles.infoContainer}>
+          <Text style={styles.fullname} fontSize="subheading" fontWeight="bold">
+            {fullName}
           </Text>
+          <Text style={styles.description} color="textSecondary">
+            {description}
+          </Text>
+          <View style={styles.languageTagContainer}>
+            <Text style={{ ...styles.languageTag, alignSelf: 'flex-start' }}>
+              {language}
+            </Text>
+          </View>
         </View>
       </View>
 
-      <View style={styles.achievements}>
+      <View style={styles.achievementContainer}>
         <Achievement value={stargazersCount} label={'Stars'} />
         <Achievement value={forksCount} label={'Forks'} />
         <Achievement value={reviewCount} label={'Reviews'} />
         <Achievement value={ratingAverage} label={'Rating'} />
       </View>
-      <OpenGithubButton
-        onPress={() => {
-          Linking.openURL(url);
-        }}
-      />
+      {openInGithub && url && (
+        <OpenGithubButton
+          onPress={() => {
+            Linking.openURL(url);
+          }}
+        />
+      )}
     </View>
   );
 };

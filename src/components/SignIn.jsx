@@ -12,7 +12,8 @@ import useSignIn from '../hooks/useSignIn';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.backgroundColors.white,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     height: 'auto',
   },
 });

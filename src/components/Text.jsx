@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   colorError: {
     color: theme.colors.error,
   },
+  colorBlue: { color: theme.colors.blue },
   fontSizeSubheading: {
     fontSize: theme.fontSizes.subheading,
   },
@@ -36,6 +37,7 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
     color === 'appBar' && styles.colorAppBar,
     color === 'error' && styles.colorError,
     color === 'button' && styles.colorButton,
+    color === 'blue' && styles.colorBlue,
     fontSize === 'subheading' && styles.fontSizeSubheading,
     fontWeight === 'bold' && styles.fontWeightBold,
     style,

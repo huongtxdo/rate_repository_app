@@ -13,4 +13,3 @@ export const SIGN_IN = gql`
   }
   ${CURRENT_USER_FRAGMENT}
 `;
-

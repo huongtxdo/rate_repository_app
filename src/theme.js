@@ -7,6 +7,7 @@ const theme = {
     appBar: '#f2f4f7', // almost white
     white: 'white',
     error: '#d73a4a', //pinkish red
+    blue: '#0366d6',
   },
   backgroundColors: {
     appBar: '#24292e', // almost black
