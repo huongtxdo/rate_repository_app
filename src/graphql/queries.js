@@ -1,37 +1,45 @@
 import { gql } from '@apollo/client';
 
 import {
-  GET_REPOSITORIES_FRAGMENT,
-  CURRENT_USER_FRAGMENT,
+  REPOSITORY_FRAGMENT,
+  USER_FRAGMENT,
   REVIEW_FRAGMENT,
 } from './fragments';
 
 export const GET_REPOSITORIES = gql`
-  query repositories {
-    repositories {
+  query repositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+    $searchKeyword: String
+  ) {
+    repositories(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      searchKeyword: $searchKeyword
+    ) {
       edges {
         node {
-          ...getRepositoriesFragment
+          ...repositoryFragment
         }
       }
     }
   }
-  ${GET_REPOSITORIES_FRAGMENT}
+  ${REPOSITORY_FRAGMENT}
 `;
 
 export const GET_CURRENT_USER = gql`
   query currentUser {
     me {
-      ...currentUserFragment
+      ...userFragment
     }
   }
-  ${CURRENT_USER_FRAGMENT}
+  ${USER_FRAGMENT}
 `;
 
 export const GET_REPOSITORY = gql`
   query getRepository($id: ID!) {
     repository(id: $id) {
-      ...getRepositoriesFragment
+      ...repositoryFragment
       reviews {
         edges {
           node {
@@ -44,7 +52,7 @@ export const GET_REPOSITORY = gql`
       }
     }
   }
-  ${GET_REPOSITORIES_FRAGMENT}
+  ${REPOSITORY_FRAGMENT}
   ${REVIEW_FRAGMENT}
 `;
 

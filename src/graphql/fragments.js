@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const GET_REPOSITORIES_FRAGMENT = gql`
-  fragment getRepositoriesFragment on Repository {
+export const REPOSITORY_FRAGMENT = gql`
+  fragment repositoryFragment on Repository {
     fullName
     description
     language
@@ -15,8 +15,8 @@ export const GET_REPOSITORIES_FRAGMENT = gql`
   }
 `;
 
-export const CURRENT_USER_FRAGMENT = gql`
-  fragment currentUserFragment on User {
+export const USER_FRAGMENT = gql`
+  fragment userFragment on User {
     id
     username
     createdAt
@@ -29,6 +29,7 @@ export const REVIEW_FRAGMENT = gql`
     createdAt
     rating
     text
+    repositoryId
   }
 `;
 
