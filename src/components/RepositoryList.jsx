@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-native';
-import { FlatList, Pressable, View, StyleSheet } from 'react-native';
-// import { Picker } from '@react-native-picker/picker';
+import { FlatList, Pressable, View, StyleSheet, TextInput } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { useDebounce } from 'use-debounce';
 
 import RepositoryItem from './RepositoryItem';
 import ItemSeparator from './ItemSeperator';
 import useRepositories from '../hooks/useRepositories';
+import theme from '../theme';
+import CustomTextInput from './CustomTextInput';
 
 const styles = StyleSheet.create({
   picker: {
@@ -76,11 +78,23 @@ const DropDown = ({ value, setValue }) => {
 
 export class RepositoryListContainer extends React.Component {
   renderHeader = () => {
-    // this.props contains the component's props
-    const { value, setValue } = this.props;
+    const { value, setValue, searchKeyword, setSearchKeyword } = this.props;
 
-    return <DropDown value={value} setValue={setValue} />;
+    return (
+      <View>
+        <ItemSeparator style={{ backgroundColor: theme.colors.white }} />
+        <CustomTextInput
+          placeholder="Search repositories..."
+          value={searchKeyword}
+          onChangeText={(value) => setSearchKeyword(value)}
+          style={{ borderRadius: 0 }}
+        />
+        <ItemSeparator style={{ backgroundColor: theme.colors.white }} />
+        <DropDown value={value} setValue={setValue} />
+      </View>
+    );
   };
+
   render() {
     const { repositories, onPress } = this.props;
 
@@ -106,8 +120,13 @@ export class RepositoryListContainer extends React.Component {
 
 const RepositoryList = () => {
   const [value, setValue] = useState('latest');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [debounce] = useDebounce(searchKeyword, 500);
 
-  const { repositories } = useRepositories({ ...variables[value] });
+  const { repositories } = useRepositories({
+    ...variables[value],
+    searchKeyword: debounce,
+  });
 
   const navigate = useNavigate();
 
@@ -119,6 +138,8 @@ const RepositoryList = () => {
       }}
       value={value}
       setValue={setValue}
+      searchKeyword={searchKeyword}
+      setSearchKeyword={setSearchKeyword}
     />
   );
 };
