@@ -28,12 +28,23 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const GET_CURRENT_USER = gql`
-  query currentUser {
+  query currentUser($includeReviews: Boolean = false) {
     me {
       ...userFragment
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            ...reviewFragment
+            repository {
+              fullName
+            }
+          }
+        }
+      }
     }
   }
   ${USER_FRAGMENT}
+  ${REVIEW_FRAGMENT}
 `;
 
 export const GET_REPOSITORY = gql`
@@ -44,9 +55,6 @@ export const GET_REPOSITORY = gql`
         edges {
           node {
             ...reviewFragment
-            user {
-              username
-            }
           }
         }
       }

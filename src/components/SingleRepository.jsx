@@ -5,7 +5,6 @@ import { useQuery } from '@apollo/client';
 import RepositoryItem from './RepositoryItem';
 import Review from './Review';
 import ItemSeparator from './ItemSeperator';
-import Text from './Text';
 
 import { GET_REPOSITORY } from '../graphql/queries';
 

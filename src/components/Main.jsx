@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import RepositoryList from './RepositoryList';
 import SingleRepository from './SingleRepository';
 import ReviewForm from './ReviewForm';
+import MyReviews from './MyReviews';
 
 import theme from '../theme';
 
@@ -32,6 +33,7 @@ const Main = () => {
             element={<SingleRepository />}
           />
           <Route exact path="/create-review" element={<ReviewForm />} />
+          <Route exact path="/my-reviews" element={<MyReviews />} />
           <Route exact path="/" element={<RepositoryList />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

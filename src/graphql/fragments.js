@@ -30,6 +30,9 @@ export const REVIEW_FRAGMENT = gql`
     rating
     text
     repositoryId
+    user {
+      username
+    }
   }
 `;
 

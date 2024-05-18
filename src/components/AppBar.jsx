@@ -1,11 +1,13 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
+import { useApolloClient, useQuery } from '@apollo/client';
+import { useNavigate } from 'react-router-native';
+
 import theme from '../theme';
 import AppBarTab from './AppBarTab';
-import { useApolloClient, useQuery } from '@apollo/client';
-import { GET_CURRENT_USER } from '../graphql/queries';
+
 import useAuthStorage from '../hooks/useAuthStorage';
-import { useNavigate } from 'react-router-native';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,8 +26,7 @@ const AppBar = () => {
   const authStorage = useAuthStorage();
   const navigate = useNavigate();
 
-  const { data } = useQuery(GET_CURRENT_USER);
-  const currentUser = data?.me;
+  const { currentUser } = useCurrentUser();
 
   const onSignOut = async () => {
     await authStorage.removeAccessToken();
@@ -40,6 +41,7 @@ const AppBar = () => {
         {currentUser ? (
           <>
             <AppBarTab text={'Create a review'} path={'/create-review'} />
+            <AppBarTab text={'My reviews'} path={'/my-reviews'} />
             <AppBarTab text={'Sign out'} onPress={onSignOut} />
           </>
         ) : (
