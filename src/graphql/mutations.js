@@ -40,3 +40,9 @@ export const SIGN_UP = gql`
   ${USER_FRAGMENT}
 `;
 
+export const DELETE_REVIEW = gql`
+  mutation deleteReview($deleteReviewId: ID!) {
+    deleteReview(id: $deleteReviewId)
+  }
+`;
+

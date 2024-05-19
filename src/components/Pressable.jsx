@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 const Pressable = ({ children, style, ...props }) => {
   return (
-    <PrimaryPressable {...props}>
+    <PrimaryPressable style={{ flexGrow: 1 }} {...props}>
       <View style={[styles.button, style]}>
         <Text color={'button'} fontWeight={'bold'}>
           {children}

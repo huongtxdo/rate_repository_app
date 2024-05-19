@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   achievement: {
-    flexGrow: 0,
+    flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
