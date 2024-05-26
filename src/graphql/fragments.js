@@ -36,3 +36,12 @@ export const REVIEW_FRAGMENT = gql`
   }
 `;
 
+export const PAGE_INFO_FRAGMENT = gql`
+  fragment pageInfoFragment on PageInfo {
+    endCursor
+    startCursor
+    hasNextPage
+    hasPreviousPage
+  }
+`;
+

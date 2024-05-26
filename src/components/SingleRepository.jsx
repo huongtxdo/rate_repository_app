@@ -11,9 +11,9 @@ import { GET_REPOSITORY } from '../graphql/queries';
 const SingleRepository = () => {
   const { id } = useParams();
   const variables = { id };
-  const { data, ...result } = useQuery(GET_REPOSITORY, {
+  const { data, fetchMore, loading, ...result } = useQuery(GET_REPOSITORY, {
     fetchPolicy: 'cache-and-network',
-    variables,
+    variables: { ...variables, reviewsFirst: 2 },
   });
 
   const repository = data?.repository;
@@ -21,6 +21,19 @@ const SingleRepository = () => {
   const reviewNodes = repository
     ? repository.reviews.edges.map(({ node }) => node)
     : [];
+
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && repository?.reviews.pageInfo.hasNextPage;
+
+    if (!canFetchMore) return;
+    // console.log(`SingleRepository onEndReach`);
+    fetchMore({
+      variables: {
+        ...variables,
+        after: repository.reviews.pageInfo.endCursor,
+      },
+    });
+  };
 
   return (
     <FlatList
@@ -36,6 +49,9 @@ const SingleRepository = () => {
           </View>
         )
       }
+      onEndReached={handleFetchMore}
+      onEndReachedThreshold={0.5}
+      initialNumToRender={2}
     />
   );
 };

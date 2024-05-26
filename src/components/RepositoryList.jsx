@@ -50,8 +50,8 @@ const variables = {
   },
 };
 
-const DropDown = ({ value, setValue }) => {
-  if (value === null) value = 'latest';
+const DropDown = ({ orderBy, setOrderBy }) => {
+  if (orderBy === null) orderBy = 'latest';
   else
     return (
       <View>
@@ -59,7 +59,7 @@ const DropDown = ({ value, setValue }) => {
           placeholder={{ label: 'Select an item...', value: '' }}
           style={styles.picker}
           // value={value}
-          onValueChange={(value) => setValue(value)}
+          onValueChange={(orderBy) => setOrderBy(orderBy)}
           items={[
             { label: 'Latest repositories', value: 'latest' },
             {
@@ -78,7 +78,7 @@ const DropDown = ({ value, setValue }) => {
 
 export class RepositoryListContainer extends React.Component {
   renderHeader = () => {
-    const { value, setValue, searchKeyword, setSearchKeyword } = this.props;
+    const { orderBy, setOrderBy, searchKeyword, setSearchKeyword } = this.props;
 
     return (
       <View>
@@ -90,13 +90,13 @@ export class RepositoryListContainer extends React.Component {
           style={{ borderRadius: 0 }}
         />
         <ItemSeparator style={{ backgroundColor: theme.colors.white }} />
-        <DropDown value={value} setValue={setValue} />
+        <DropDown value={orderBy} setOrderBy={setOrderBy} />
       </View>
     );
   };
 
   render() {
-    const { repositories, onPress } = this.props;
+    const { repositories, onPress, onEndReach } = this.props;
 
     const repositoryNodes = repositories
       ? repositories.edges.map((edge) => edge.node)
@@ -113,22 +113,30 @@ export class RepositoryListContainer extends React.Component {
           </Pressable>
         )}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
+        initialNumToRender={2}
       />
     );
   }
 }
 
 const RepositoryList = () => {
-  const [value, setValue] = useState('latest');
+  const [orderBy, setOrderBy] = useState('latest');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [debounce] = useDebounce(searchKeyword, 500);
+  const navigate = useNavigate();
 
-  const { repositories } = useRepositories({
-    ...variables[value],
+  const { repositories, fetchMore } = useRepositories({
+    first: 5,
+    ...variables[orderBy],
     searchKeyword: debounce,
   });
 
-  const navigate = useNavigate();
+  const onEndReach = () => {
+    // console.log(`repositoryList onEndReach`);
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
@@ -136,10 +144,11 @@ const RepositoryList = () => {
       onPress={(id) => {
         navigate(`/repositories/${id}`);
       }}
-      value={value}
-      setValue={setValue}
+      orderBy={orderBy}
+      setOrderBy={setOrderBy}
       searchKeyword={searchKeyword}
       setSearchKeyword={setSearchKeyword}
+      onEndReach={onEndReach}
     />
   );
 };
